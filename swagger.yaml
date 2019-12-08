@@ -1,0 +1,217 @@
+openapi: 3.0.0
+info:
+  description: "Swagger for the Pokédex Trivia API"
+  version: "1.0.0"
+  title: "Pokédex Trivia API"
+  contact:
+    email: "cco2@cin.ufpe.br"
+tags:
+- name: Room
+  description: "Related to the trivia rooms"
+- name: Category
+  description: "Related to the trivia categories"
+paths:
+  /rooms:
+    post:
+      tags:
+      - Room
+      summary: "Creates a new room"
+      requestBody:
+        description: "Room to be created"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoomCreationRequest"
+      responses:
+        201:
+          description: "Returns the created room's ID"
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+                example: 74
+  /rooms/{room_id}:
+    get:
+      tags: 
+      - Room
+      summary: "Gets the given room"
+      parameters: 
+        - in: path
+          name: room_id
+          schema:
+            type: integer
+            format: int64
+            example: 74
+          required: true
+          description: "The ID of the room to get"
+      responses:
+        200:
+          description: "Returns the room"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Room"
+  /rooms/{room_id}/answer:
+    post:
+      tags:
+      - Room
+      summary: "Posts the user's answer on the given room"
+      parameters: 
+        - in: path
+          name: room_id
+          schema:
+            type: integer
+            format: int64
+            example: 74
+          required: true
+          description: "The ID of the room to post answer to"
+      requestBody:
+        description: "User's answer"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Answer"
+      responses:
+        200:
+          description: "The leaderboard after the user's answer"
+          content:
+            application/json:
+              schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/LeaderboardPosition"
+  /rooms/summary:
+    get:
+      tags:
+      - Room
+      summary: "Gets the summary for all available rooms"
+      responses:
+        200:
+          description: "The returned room summarys"
+          content:
+            application/json:
+              schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/RoomSummary"
+  /categories:
+    get:
+      tags:
+      - Category
+      summary: "Gets all the currently existing categories"
+      responses:
+        200:
+          description: "The returned categories"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+components:
+  schemas:
+    Room:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 74
+        questions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Question"
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category" 
+        leaderboard:
+          type: array
+          items:
+            $ref: "#/components/schemas/LeaderboardPosition"
+    LeaderboardPosition:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "tatinho120"
+        score:
+          type: integer
+          format: int64
+          example: 3
+    Question:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        stem:
+          type: string
+          example: "Which of these pokémon is a pure dark-type?"
+        alternatives:
+          type: array
+          items:
+            $ref: "#/components/schemas/Alternative"
+    Alternative:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        text:
+          type: string
+          example: "Umbreon"
+        image_url:
+          type: string
+          format: url
+          example: "https://bit.ly/2P2vnuK"
+    Category:
+      type: object
+      properties:
+        category:
+          type: string
+          example: "Pokémon types"
+        subcategories:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category" 
+          example: []
+    RoomCreationRequest:
+      type: object
+      properties:
+        number_of_questions:
+          type: integer
+          format: int64
+          example: 10
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category"
+    RoomSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 74
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category"
+    Answer:
+      type: object
+      properties:
+        question_id:
+          type: string
+          format: uuid
+        choice:
+          type: string
+          format: uuid
+externalDocs:
+  description: "Source code"
+  url: "https://github.com/ClaudioCarvalhoo/pokedex-trivia-api"
