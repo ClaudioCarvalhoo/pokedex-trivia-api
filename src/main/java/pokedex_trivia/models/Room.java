@@ -1,16 +1,20 @@
 package pokedex_trivia.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
@@ -46,4 +50,7 @@ public class Room {
       joinColumns = @JoinColumn(name = "room_id"),
       inverseJoinColumns = @JoinColumn(name = "question_id"))
   Set<Question> questions = new HashSet<>();
+
+  @OneToMany(mappedBy = "id.roomId", fetch = FetchType.LAZY)
+  List<Score> scores = new ArrayList<>();
 }
