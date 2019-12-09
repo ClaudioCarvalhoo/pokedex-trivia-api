@@ -2,8 +2,9 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/pokedex-trivia
-    username: Claudio
+    url: jdbc:postgresql://ec2-174-129-255-46.compute-1.amazonaws.com:5432/d1m5gotu5d2u9u
+    username: clvonyusjhwebm
+    password: 03757b1c28085d2b4c7c1c5c7d785bd4ed3d7e96dea81ee050e3df42a0c493f5
   jpa:
     hibernate:
       ddl-auto: validate
@@ -13,5 +14,7 @@ spring:
           lob:
             non_contextual_creation: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    baseline-on-migrate: true
   jackson:
     property-naming-strategy: SNAKE_CASE
