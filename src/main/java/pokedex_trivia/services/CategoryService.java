@@ -1,19 +1,18 @@
 package pokedex_trivia.services;
 
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pokedex_trivia.facades.CategoryFacade;
 import pokedex_trivia.models.dtos.CategoryDto;
 
-import java.util.Set;
-
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class CategoryService {
-    private CategoryFacade categoryFacade;
+  private CategoryFacade categoryFacade;
 
-    public Set<CategoryDto> getAllCategories(){
-        return categoryFacade.getAllCategories();
-    }
+  public Set<CategoryDto> getAllCategories() {
+    return categoryFacade.getAllCategories();
+  }
 }

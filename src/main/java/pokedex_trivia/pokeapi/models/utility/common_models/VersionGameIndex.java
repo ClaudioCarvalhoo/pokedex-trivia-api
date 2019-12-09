@@ -6,6 +6,6 @@ import lombok.Value;
 @Builder
 @Value
 public class VersionGameIndex {
-    Long gameIndex;
-    NamedApiResource version;
+  Long gameIndex;
+  NamedApiResource version;
 }

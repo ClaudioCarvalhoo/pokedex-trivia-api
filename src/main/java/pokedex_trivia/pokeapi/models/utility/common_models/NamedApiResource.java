@@ -6,6 +6,6 @@ import lombok.Value;
 @Builder
 @Value
 public class NamedApiResource {
-    String name;
-    String url;
+  String name;
+  String url;
 }

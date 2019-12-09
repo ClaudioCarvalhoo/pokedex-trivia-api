@@ -4,6 +4,7 @@ plugins {
     id 'org.springframework.boot' version '2.1.8.RELEASE'
     id 'io.spring.dependency-management' version '1.0.7.RELEASE'
     id "org.flywaydb.flyway" version "6.1.0"
+    id 'com.github.sherter.google-java-format' version '0.8'
 }
 
 group 'pokedex-trivia'

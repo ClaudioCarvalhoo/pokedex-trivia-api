@@ -7,6 +7,6 @@ import pokedex_trivia.pokeapi.models.utility.common_models.NamedApiResource;
 @Builder
 @Value
 public class PokemonHeldItemVersion {
-    NamedApiResource version;
-    Long rarity;
+  NamedApiResource version;
+  Long rarity;
 }

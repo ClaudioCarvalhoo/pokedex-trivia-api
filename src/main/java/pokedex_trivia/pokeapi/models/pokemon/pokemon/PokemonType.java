@@ -7,6 +7,6 @@ import pokedex_trivia.pokeapi.models.utility.common_models.NamedApiResource;
 @Builder
 @Value
 public class PokemonType {
-    Long slot;
-    NamedApiResource type;
+  Long slot;
+  NamedApiResource type;
 }

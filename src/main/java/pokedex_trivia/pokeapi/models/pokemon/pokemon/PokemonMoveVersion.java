@@ -7,7 +7,7 @@ import pokedex_trivia.pokeapi.models.utility.common_models.NamedApiResource;
 @Builder
 @Value
 public class PokemonMoveVersion {
-    NamedApiResource moveLearnMethod;
-    NamedApiResource versionGroup;
-    Long levelLearnedAt;
+  NamedApiResource moveLearnMethod;
+  NamedApiResource versionGroup;
+  Long levelLearnedAt;
 }
