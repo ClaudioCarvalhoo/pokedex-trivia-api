@@ -24,7 +24,7 @@ public class RoomController {
     return roomService.getRoomById(roomId).getCategories().iterator().next().getName();
   }
 
-  @GetMapping("/summary") // TODO: ADD ROOM SNAPSHOTS HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  @GetMapping("/summary")
   @ResponseStatus(HttpStatus.OK)
   public Set<RoomSummaryDto> getAllRoomSummaries() {
     return roomService.getAllRoomSummaries();

@@ -34,10 +34,10 @@ public class Room {
   @ManyToMany(cascade = {CascadeType.MERGE})
   @JoinTable(
       schema = "trivia",
-      name = "room_category",
+      name = "room_category_snapshot",
       joinColumns = @JoinColumn(name = "room_id"),
-      inverseJoinColumns = @JoinColumn(name = "category_id"))
-  Set<Category> categories = new HashSet<>();
+      inverseJoinColumns = @JoinColumn(name = "category_snapshot_id"))
+  Set<CategorySnapshot> categories = new HashSet<>();
 
   @ManyToMany(cascade = {CascadeType.MERGE})
   @JoinTable(
