@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pokedex_trivia.mappers.RoomMapper;
-import pokedex_trivia.models.Room;
+import pokedex_trivia.models.dtos.RoomDto;
 import pokedex_trivia.models.dtos.RoomSummaryDto;
 import pokedex_trivia.repositories.RoomRepository;
 
@@ -15,8 +15,8 @@ import pokedex_trivia.repositories.RoomRepository;
 public class RoomFacade {
   private RoomRepository roomRepository;
 
-  public Room getRoomById(Long id) {
-    return roomRepository.findById(id).get();
+  public RoomDto getRoomById(Long id) {
+    return RoomMapper.roomToDto(roomRepository.findById(id).get());
   }
 
   public Set<RoomSummaryDto> getAllRoomSummaries() {

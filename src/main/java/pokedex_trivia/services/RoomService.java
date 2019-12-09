@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pokedex_trivia.facades.RoomFacade;
-import pokedex_trivia.models.Room;
+import pokedex_trivia.models.dtos.RoomDto;
 import pokedex_trivia.models.dtos.RoomSummaryDto;
 
 @Service
@@ -13,7 +13,7 @@ import pokedex_trivia.models.dtos.RoomSummaryDto;
 public class RoomService {
   private RoomFacade roomFacade;
 
-  public Room getRoomById(Long id) {
+  public RoomDto getRoomById(Long id) {
     return roomFacade.getRoomById(id);
   }
 

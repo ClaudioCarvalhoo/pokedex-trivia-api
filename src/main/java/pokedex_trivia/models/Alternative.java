@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(schema = "trivia", name = "alternative")
@@ -29,5 +30,6 @@ public class Alternative {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "question_id")
+  @EqualsAndHashCode.Exclude
   Question question;
 }
