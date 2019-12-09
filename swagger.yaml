@@ -73,9 +73,15 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/Answer"
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "tatinho120"
+                answers:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Answer"
       responses:
         200:
           description: "The leaderboard after the user's answer"
@@ -137,7 +143,7 @@ components:
     LeaderboardPosition:
       type: object
       properties:
-        name:
+        username:
           type: string
           example: "tatinho120"
         score:
@@ -150,6 +156,10 @@ components:
         id:
           type: string
           format: uuid
+        image_url:
+          type: string
+          format: url
+          example: "https://bit.ly/2P2vnuK"
         stem:
           type: string
           example: "Which of these pokémon is a pure dark-type?"
