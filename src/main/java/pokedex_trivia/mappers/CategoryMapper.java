@@ -7,14 +7,9 @@ import java.util.stream.Collectors;
 
 public class CategoryMapper {
     public static CategoryDto CategoryToDto(Category category){
-         CategoryDto.CategoryDtoBuilder builder =
-                 CategoryDto.builder()
-                .id(category.getId())
+         return CategoryDto.builder()
                 .name(category.getName())
-                 .subcategories(category.getSubcategories().stream().map(CategoryMapper::CategoryToDto).collect(Collectors.toSet()));
-         if (category.getParentCategory() != null){
-             builder.parentCategoryId(category.getParentCategory().getId());
-         }
-         return builder.build();
+                 .subcategories(category.getSubcategories().stream().map(CategoryMapper::CategoryToDto).collect(Collectors.toSet()))
+                 .build();
     }
 }

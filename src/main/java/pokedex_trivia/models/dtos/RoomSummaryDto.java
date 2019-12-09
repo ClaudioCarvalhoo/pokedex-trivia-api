@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Value
 @Builder(toBuilder = true)
-public class CategoryDto {
-    @NonNull String name;
-    Set<CategoryDto> subcategories;
+public class RoomSummaryDto {
+    @NonNull Long id;
+    @NonNull Set<CategoryDto> categories;
 }
