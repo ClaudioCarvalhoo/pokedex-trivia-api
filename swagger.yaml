@@ -183,7 +183,10 @@ components:
     Category:
       type: object
       properties:
-        category:
+        id:
+          type: string
+          example: "POKEMON-TYPES"
+        name:
           type: string
           example: "Pokémon types"
         subcategories:
@@ -201,7 +204,8 @@ components:
         categories:
           type: array
           items:
-            $ref: "#/components/schemas/Category"
+            type: string
+          example: ["POKEMON-TYPES", "POKEMON-NAMES"]
     RoomSummary:
       type: object
       properties:
