@@ -2,7 +2,6 @@ package pokedex_trivia.models;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +19,7 @@ import lombok.EqualsAndHashCode;
 public class Category {
   @Id
   @Column(name = "id")
-  UUID id;
+  String id;
 
   @Column(name = "name")
   String name;

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pokedex_trivia.models.dtos.RoomDto;
 import pokedex_trivia.models.dtos.RoomSummaryDto;
 import pokedex_trivia.models.requests.PostAnswerRequest;
+import pokedex_trivia.models.requests.PostRoomRequest;
 import pokedex_trivia.services.RoomService;
 
 @RestController
@@ -23,6 +24,12 @@ import pokedex_trivia.services.RoomService;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class RoomController {
   private RoomService roomService;
+
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public Long createRoom(@RequestBody @Valid PostRoomRequest request) {
+    return roomService.createRoom(request);
+  }
 
   @GetMapping("/{room_id}")
   @ResponseStatus(HttpStatus.OK)

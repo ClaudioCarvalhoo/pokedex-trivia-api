@@ -3,15 +3,9 @@ CREATE SCHEMA IF NOT EXISTS trivia;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE trivia.CATEGORY (
-    id UUID PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
-    parent_category UUID REFERENCES trivia.CATEGORY(id)
-);
-
-CREATE TABLE trivia.CATEGORY_SNAPSHOT (
-    id UUID PRIMARY KEY,
-    name TEXT NOT NULL,
-    parent_category_snapshot UUID REFERENCES trivia.CATEGORY_SNAPSHOT(id)
+    parent_category TEXT REFERENCES trivia.CATEGORY(id)
 );
 
 CREATE TABLE trivia.QUESTION (
@@ -46,8 +40,8 @@ CREATE TABLE trivia.ROOM_QUESTION (
   PRIMARY KEY (room_id, question_id)
 );
 
-CREATE TABLE trivia.ROOM_CATEGORY_SNAPSHOT (
+CREATE TABLE trivia.ROOM_CATEGORY (
   room_id BIGINT NOT NULL REFERENCES trivia.ROOM(id),
-  category_snapshot_id UUID NOT NULL REFERENCES trivia.CATEGORY_SNAPSHOT(id),
-  PRIMARY KEY (room_id, category_snapshot_id)
+  category_id TEXT NOT NULL REFERENCES trivia.CATEGORY(id),
+  PRIMARY KEY (room_id, category_id)
 );

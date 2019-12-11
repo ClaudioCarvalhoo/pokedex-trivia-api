@@ -14,7 +14,7 @@ public class RoomMapper {
         .categories(
             room.getCategories()
                 .stream()
-                .map(CategoryMapper::CategorySnapshotToDto)
+                .map(CategoryMapper::CategoryToDto)
                 .collect(Collectors.toSet()))
         .questions(
             room.getQuestions()
@@ -36,7 +36,7 @@ public class RoomMapper {
         .categories(
             room.getCategories()
                 .stream()
-                .map(CategoryMapper::CategorySnapshotToDto)
+                .map(CategoryMapper::CategoryToDto)
                 .collect(Collectors.toSet()))
         .build();
   }

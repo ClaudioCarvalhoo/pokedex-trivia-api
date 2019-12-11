@@ -8,6 +8,7 @@ import lombok.Value;
 @Value
 @Builder(toBuilder = true)
 public class CategoryDto {
+  @NonNull String id;
   @NonNull String name;
   Set<CategoryDto> subcategories;
 }
