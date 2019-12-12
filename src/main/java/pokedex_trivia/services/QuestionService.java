@@ -1,9 +1,13 @@
 package pokedex_trivia.services;
 
 import com.google.common.collect.Sets;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pokedex_trivia.facades.PokeApiFacade;
@@ -24,25 +28,72 @@ public class QuestionService {
     Set<AlternativeDto> alternatives = Sets.newHashSet();
     switch (CategoryId.fromString(categoryId)) {
       case POKEMON_NAMES:
-        questionBuilder.stem("Quem é esse pokémon?");
-        Set<Long> chosenDexIndexes = Sets.newHashSet();
-        Long randomDexNumber = (long) RANDOM.nextInt(808);
-        chosenDexIndexes.add(randomDexNumber);
-        Pokemon chosenPokemon = pokeApiFacade.getPokemonByDexIndex(randomDexNumber);
-        questionBuilder.imageUrl(chosenPokemon.getSprites().getFrontDefault());
-        alternatives.add(
-            AlternativeDto.builder().text(chosenPokemon.getName()).correct(true).build());
-        for (int i = 0; i < 3; i++) {
-          while (chosenDexIndexes.contains(randomDexNumber)) {
-            randomDexNumber = (long) RANDOM.nextInt(808);
-          }
-          chosenDexIndexes.add(randomDexNumber);
-          chosenPokemon = pokeApiFacade.getPokemonByDexIndex(randomDexNumber);
+        {
+          questionBuilder.stem("Who's that pokémon?");
+          Pokemon chosenPokemon = getRandomPokemon();
+          Set<Pokemon> wrongPokemon =
+              getRandomPokemonExcept(Collections.singleton(chosenPokemon.getId()), 3L);
+          questionBuilder.imageUrl(chosenPokemon.getSprites().getFrontDefault());
           alternatives.add(
-              AlternativeDto.builder().text(chosenPokemon.getName()).correct(false).build());
+              AlternativeDto.builder().text(chosenPokemon.getName()).correct(true).build());
+          alternatives.addAll(
+              wrongPokemon
+                  .stream()
+                  .map(
+                      pokemon ->
+                          AlternativeDto.builder().text(pokemon.getName()).correct(false).build())
+                  .collect(Collectors.toSet()));
+          break;
         }
       case POKEMON_TYPES:
-        break;
+        {
+          Set<Long> chosenDexIndexes = Sets.newHashSet();
+          Pokemon chosenPokemon = getRandomPokemon();
+          chosenDexIndexes.add(chosenPokemon.getId());
+          Set<Pokemon> tempWrongPokemon = getRandomPokemonExcept(chosenDexIndexes, 3L);
+          List<String> types =
+              chosenPokemon
+                  .getTypes()
+                  .stream()
+                  .map(type -> type.getType().getName())
+                  .collect(Collectors.toList());
+          StringBuilder stem = new StringBuilder("Which of these pokémon is a ");
+          if (types.size() > 1) {
+            stem.append(String.join("/", types));
+          } else {
+            stem.append("pure ").append(types.get(0));
+          }
+          stem.append(" type?");
+          Set<Pokemon> wrongPokemon = Sets.newHashSet();
+          while (tempWrongPokemon.size() > 0) {
+            tempWrongPokemon.forEach(
+                pokemon -> {
+                  chosenDexIndexes.add(pokemon.getId());
+                  if (!CollectionUtils.isEqualCollection(
+                      pokemon
+                          .getTypes()
+                          .stream()
+                          .map(type -> type.getType().getName())
+                          .collect(Collectors.toSet()),
+                      types)) {
+                    wrongPokemon.add(pokemon);
+                  }
+                });
+            tempWrongPokemon = getRandomPokemonExcept(chosenDexIndexes, 3L - wrongPokemon.size());
+          }
+          alternatives.add(
+              AlternativeDto.builder().text(chosenPokemon.getName()).correct(true).build());
+          alternatives.addAll(
+              wrongPokemon
+                  .stream()
+                  .map(
+                      pokemon ->
+                          AlternativeDto.builder().text(pokemon.getName()).correct(false).build())
+                  .collect(Collectors.toSet()));
+          questionBuilder.alternatives(alternatives);
+          questionBuilder.stem(stem.toString());
+          break;
+        }
       case POKEMON_ABILITIES:
         break;
       case ITEM_NAMES:
@@ -53,5 +104,26 @@ public class QuestionService {
         throw new RuntimeException("Received unknown category.");
     }
     return questionBuilder.alternatives(alternatives).build();
+  }
+
+  private Pokemon getRandomPokemon() throws Exception {
+    Long randomDexNumber = (long) RANDOM.nextInt(808);
+    return pokeApiFacade.getPokemonByDexIndex(randomDexNumber);
+  }
+
+  private Set<Pokemon> getRandomPokemonExcept(Set<Long> except, Long quant) throws Exception {
+    Set<Long> chosenDexIndexes = Sets.newHashSet();
+    chosenDexIndexes.addAll(except);
+    Set<Pokemon> chosenPokemon = Sets.newHashSet();
+    Long randomDexNumber = (long) RANDOM.nextInt(808);
+    for (int i = 0; i < quant; i++) {
+      while (chosenDexIndexes.contains(randomDexNumber)) {
+        randomDexNumber = (long) RANDOM.nextInt(808);
+      }
+      chosenDexIndexes.add(randomDexNumber);
+      Pokemon randomPokemon = pokeApiFacade.getPokemonByDexIndex(randomDexNumber);
+      chosenPokemon.add(randomPokemon);
+    }
+    return chosenPokemon;
   }
 }
