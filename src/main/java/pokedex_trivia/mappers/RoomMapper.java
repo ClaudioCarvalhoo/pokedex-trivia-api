@@ -2,8 +2,8 @@ package pokedex_trivia.mappers;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
-import pokedex_trivia.models.Category;
-import pokedex_trivia.models.Room;
+import pokedex_trivia.models.database_models.Category;
+import pokedex_trivia.models.database_models.Room;
 import pokedex_trivia.models.dtos.RoomDto;
 import pokedex_trivia.models.dtos.RoomSummaryDto;
 import pokedex_trivia.models.dtos.ScoreDto;

@@ -1,4 +1,4 @@
-package pokedex_trivia.models;
+package pokedex_trivia.models.database_models;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,7 +43,7 @@ public class Room {
       inverseJoinColumns = @JoinColumn(name = "category_id"))
   Set<Category> categories = new HashSet<>();
 
-  @ManyToMany(cascade = {CascadeType.MERGE})
+  @ManyToMany(cascade = {CascadeType.ALL})
   @JoinTable(
       schema = "trivia",
       name = "room_question",

@@ -1,4 +1,4 @@
-package pokedex_trivia.models;
+package pokedex_trivia.models.database_models;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pokedex_trivia.models.Score;
+import pokedex_trivia.models.database_models.Score;
 import pokedex_trivia.models.dtos.ScoreDto;
 import pokedex_trivia.repositories.ScoreRepository;
 

@@ -7,5 +7,5 @@ import retrofit2.http.Path;
 
 public interface PokeApiService {
   @GET("pokemon/{dexIndex}/")
-  Call<Pokemon> getPokemonByDexIndex(@Path("dexIndex") int dexIndex);
+  Call<Pokemon> getPokemonByDexIndex(@Path("dexIndex") Long dexIndex);
 }

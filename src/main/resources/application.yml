@@ -18,3 +18,4 @@ spring:
     baseline-on-migrate: true
   jackson:
     property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: NON_NULL

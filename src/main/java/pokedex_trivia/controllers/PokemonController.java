@@ -30,7 +30,7 @@ public class PokemonController {
             .build();
     PokeApiService pokeApiService = retrofit.create(PokeApiService.class);
     final Response<Pokemon> response =
-        pokeApiService.getPokemonByDexIndex(randomDexNumber).execute();
+        pokeApiService.getPokemonByDexIndex((long) randomDexNumber).execute();
     if (response.isSuccessful()) {
       return response.body().toString();
     } else {

@@ -1,7 +1,7 @@
 package pokedex_trivia.mappers;
 
 import java.util.stream.Collectors;
-import pokedex_trivia.models.Category;
+import pokedex_trivia.models.database_models.Category;
 import pokedex_trivia.models.dtos.CategoryDto;
 
 public class CategoryMapper {

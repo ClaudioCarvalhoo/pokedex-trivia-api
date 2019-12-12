@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pokedex_trivia.models.Alternative;
+import pokedex_trivia.models.database_models.Alternative;
 import pokedex_trivia.repositories.AlternativeRepository;
 
 @Component

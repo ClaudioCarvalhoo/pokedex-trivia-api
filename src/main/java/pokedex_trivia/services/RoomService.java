@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import pokedex_trivia.facades.AlternativeFacade;
 import pokedex_trivia.facades.RoomFacade;
 import pokedex_trivia.facades.ScoreFacade;
-import pokedex_trivia.models.dtos.AlternativeDto;
 import pokedex_trivia.models.dtos.QuestionDto;
 import pokedex_trivia.models.dtos.RoomDto;
 import pokedex_trivia.models.dtos.RoomSummaryDto;
@@ -34,28 +33,14 @@ public class RoomService {
     for (int i = 0; i < request.getNumberOfQuestions(); i++) {
       Collections.shuffle(categories);
       String randomCategoryId = categories.get(0);
-      // questions.add(questionService.createQuestion(randomCategoryId));
-      questions.add(
-          QuestionDto.builder()
-              .id(UUID.randomUUID())
-              .stem("quem eh esse pokemon")
-              .alternatives(
-                  Collections.singleton(
-                      AlternativeDto.builder()
-                          .id(UUID.randomUUID())
-                          .text("gandalf")
-                          .correct(true)
-                          .build()))
-              .build());
+      try {
+        questions.add(questionService.createQuestion(randomCategoryId));
+      } catch (Exception e) {
+        throw new RuntimeException(e.getMessage());
+      }
     }
     RoomDto room =
-        RoomDto.builder()
-            .categories(
-                Collections.emptySet()
-                // Sets.newHashSet(categories)
-                )
-            .questions(questions)
-            .build();
+        RoomDto.builder().categories(Sets.newHashSet(categories)).questions(questions).build();
     return roomFacade.createRoom(room);
   }
 
