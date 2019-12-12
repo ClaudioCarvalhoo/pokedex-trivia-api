@@ -1,5 +1,9 @@
 package pokedex_trivia.services;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -9,6 +13,8 @@ import org.springframework.stereotype.Service;
 import pokedex_trivia.facades.AlternativeFacade;
 import pokedex_trivia.facades.RoomFacade;
 import pokedex_trivia.facades.ScoreFacade;
+import pokedex_trivia.models.dtos.AlternativeDto;
+import pokedex_trivia.models.dtos.QuestionDto;
 import pokedex_trivia.models.dtos.RoomDto;
 import pokedex_trivia.models.dtos.RoomSummaryDto;
 import pokedex_trivia.models.dtos.ScoreDto;
@@ -17,13 +23,40 @@ import pokedex_trivia.models.requests.PostRoomRequest;
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class RoomService {
+  private QuestionService questionService;
   private RoomFacade roomFacade;
   private AlternativeFacade alternativeFacade;
   private ScoreFacade scoreFacade;
 
   public Long createRoom(PostRoomRequest request) {
-    Set<String> categories = request.getCategories();
-    return 1L;
+    List<String> categories = Lists.newArrayList(request.getCategories());
+    Set<QuestionDto> questions = Sets.newHashSet();
+    for (int i = 0; i < request.getNumberOfQuestions(); i++) {
+      Collections.shuffle(categories);
+      String randomCategoryId = categories.get(0);
+      // questions.add(questionService.createQuestion(randomCategoryId));
+      questions.add(
+          QuestionDto.builder()
+              .id(UUID.randomUUID())
+              .stem("quem eh esse pokemon")
+              .alternatives(
+                  Collections.singleton(
+                      AlternativeDto.builder()
+                          .id(UUID.randomUUID())
+                          .text("gandalf")
+                          .correct(true)
+                          .build()))
+              .build());
+    }
+    RoomDto room =
+        RoomDto.builder()
+            .categories(
+                Collections.emptySet()
+                // Sets.newHashSet(categories)
+                )
+            .questions(questions)
+            .build();
+    return roomFacade.createRoom(room);
   }
 
   public RoomDto getRoomById(Long id) {

@@ -2,6 +2,7 @@ package pokedex_trivia.mappers;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
+import pokedex_trivia.models.Category;
 import pokedex_trivia.models.Room;
 import pokedex_trivia.models.dtos.RoomDto;
 import pokedex_trivia.models.dtos.RoomSummaryDto;
@@ -11,11 +12,7 @@ public class RoomMapper {
   public static RoomDto roomToDto(Room room) {
     return RoomDto.builder()
         .id(room.getId())
-        .categories(
-            room.getCategories()
-                .stream()
-                .map(CategoryMapper::CategoryToDto)
-                .collect(Collectors.toSet()))
+        .categories(room.getCategories().stream().map(Category::getId).collect(Collectors.toSet()))
         .questions(
             room.getQuestions()
                 .stream()
@@ -39,5 +36,27 @@ public class RoomMapper {
                 .map(CategoryMapper::CategoryToDto)
                 .collect(Collectors.toSet()))
         .build();
+  }
+
+  public static Room dtoToRoom(RoomDto roomDto) {
+    Room room = new Room();
+    room.setCategories(
+        roomDto
+            .getCategories()
+            .stream()
+            .map(
+                categoryId -> {
+                  Category category = new Category();
+                  category.setId(categoryId);
+                  return category;
+                })
+            .collect(Collectors.toSet()));
+    room.setQuestions(
+        roomDto
+            .getQuestions()
+            .stream()
+            .map(QuestionMapper::dtoToQuestion)
+            .collect(Collectors.toSet()));
+    return room;
   }
 }

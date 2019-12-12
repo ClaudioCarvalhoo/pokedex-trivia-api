@@ -9,7 +9,7 @@ import lombok.Value;
 @Builder(toBuilder = true)
 public class RoomDto {
   Long id;
-  Set<CategoryDto> categories;
+  Set<String> categories;
   Set<QuestionDto> questions;
   List<ScoreDto> leaderboard;
 }

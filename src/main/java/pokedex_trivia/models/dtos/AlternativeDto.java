@@ -11,4 +11,5 @@ public class AlternativeDto {
   UUID id;
   @NonNull String text;
   String imageUrl;
+  Boolean correct;
 }
