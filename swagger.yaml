@@ -6,15 +6,15 @@ info:
   contact:
     email: "cco2@cin.ufpe.br"
 tags:
-- name: Room
-  description: "Related to the trivia rooms"
-- name: Category
-  description: "Related to the trivia categories"
+  - name: Room
+    description: "Related to the trivia rooms"
+  - name: Category
+    description: "Related to the trivia categories"
 paths:
   /rooms:
     post:
       tags:
-      - Room
+        - Room
       summary: "Creates a new room"
       requestBody:
         description: "Room to be created"
@@ -34,10 +34,10 @@ paths:
                 example: 74
   /rooms/{room_id}:
     get:
-      tags: 
-      - Room
+      tags:
+        - Room
       summary: "Gets the given room"
-      parameters: 
+      parameters:
         - in: path
           name: room_id
           schema:
@@ -56,9 +56,9 @@ paths:
   /rooms/{room_id}/answer:
     post:
       tags:
-      - Room
+        - Room
       summary: "Posts the user's answer on the given room"
-      parameters: 
+      parameters:
         - in: path
           name: room_id
           schema:
@@ -88,13 +88,13 @@ paths:
           content:
             application/json:
               schema:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/LeaderboardPosition"
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeaderboardPosition"
   /rooms/summary:
     get:
       tags:
-      - Room
+        - Room
       summary: "Gets the summary for all available rooms"
       responses:
         200:
@@ -102,13 +102,13 @@ paths:
           content:
             application/json:
               schema:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/RoomSummary"
+                type: array
+                items:
+                  $ref: "#/components/schemas/RoomSummary"
   /categories:
     get:
       tags:
-      - Category
+        - Category
       summary: "Gets all the currently existing categories"
       responses:
         200:
@@ -135,7 +135,7 @@ components:
         categories:
           type: array
           items:
-            $ref: "#/components/schemas/Category" 
+            $ref: "#/components/schemas/Category"
         leaderboard:
           type: array
           items:
@@ -189,10 +189,13 @@ components:
         name:
           type: string
           example: "Pokémon types"
+        short_name:
+          type: string
+          example: "Types"
         subcategories:
           type: array
           items:
-            $ref: "#/components/schemas/Category" 
+            $ref: "#/components/schemas/Category"
           example: []
     RoomCreationRequest:
       type: object

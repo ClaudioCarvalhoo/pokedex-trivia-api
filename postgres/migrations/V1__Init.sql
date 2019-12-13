@@ -5,6 +5,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE trivia.CATEGORY (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
+    short_name TEXT NOT NULL,
     parent_category TEXT REFERENCES trivia.CATEGORY(id)
 );
 

@@ -9,6 +9,7 @@ public class CategoryMapper {
     return CategoryDto.builder()
         .id(category.getId())
         .name(category.getName())
+        .shortName(category.getShortName())
         .subcategories(
             category
                 .getSubcategories()

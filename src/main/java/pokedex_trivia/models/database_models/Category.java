@@ -24,6 +24,9 @@ public class Category {
   @Column(name = "name")
   String name;
 
+  @Column(name = "short_name")
+  String shortName;
+
   @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY)
   Set<Category> subcategories = new HashSet<>();
 

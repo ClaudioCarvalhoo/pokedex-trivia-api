@@ -10,5 +10,6 @@ import lombok.Value;
 public class CategoryDto {
   @NonNull String id;
   @NonNull String name;
+  @NonNull String shortName;
   Set<CategoryDto> subcategories;
 }
