@@ -21,6 +21,15 @@ import pokedex_trivia.pokeapi.models.pokemon.pokemon.Pokemon;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class QuestionService {
   private final Random RANDOM = new Random();
+  private final Set<String> BANNED_CATEGORIES =
+      Sets.newHashSet(
+          "event-items",
+          "unused",
+          "plot-advancement",
+          "all-mail",
+          "mulch",
+          "data-cards",
+          "miracle shooter");
 
   private PokeApiFacade pokeApiFacade;
 
@@ -254,10 +263,13 @@ public class QuestionService {
   }
 
   private Item getRandomItem() throws Exception {
-    Long randomItemId = (long) RANDOM.nextInt(919);
+    Long randomItemId = (long) RANDOM.nextInt(955);
     while (true) {
       try {
-        return pokeApiFacade.getItemById(randomItemId);
+        Item chosenItem = pokeApiFacade.getItemById(randomItemId);
+        if (!BANNED_CATEGORIES.contains(chosenItem.getItemCategory().getName())) {
+          return chosenItem;
+        }
       } catch (Exception e) {
         // try max times?
       }
@@ -268,17 +280,18 @@ public class QuestionService {
     Set<Long> chosenIds = Sets.newHashSet();
     chosenIds.addAll(except);
     Set<Item> chosenItems = Sets.newHashSet();
-    Long randomItemId = (long) RANDOM.nextInt(919);
+    Long randomItemId = (long) RANDOM.nextInt(955);
     for (int i = 0; i < quant; i++) {
       while (chosenIds.contains(randomItemId)) {
-        randomItemId = (long) RANDOM.nextInt(919);
+        randomItemId = (long) RANDOM.nextInt(955);
       }
+      chosenIds.add(randomItemId);
       try {
-        chosenIds.add(randomItemId);
         Item randomItem = pokeApiFacade.getItemById(randomItemId);
-        chosenItems.add(randomItem);
+        if (!BANNED_CATEGORIES.contains(randomItem.getItemCategory().getName())) {
+          chosenItems.add(randomItem);
+        }
       } catch (Exception e) {
-        chosenIds.add(randomItemId);
         i--;
       }
     }
