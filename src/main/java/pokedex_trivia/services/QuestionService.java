@@ -95,6 +95,45 @@ public class QuestionService {
           break;
         }
       case POKEMON_ABILITIES:
+        Set<Long> chosenDexIndexes = Sets.newHashSet();
+        Pokemon chosenPokemon = getRandomPokemon();
+        chosenDexIndexes.add(chosenPokemon.getId());
+        Set<Pokemon> tempWrongPokemon = getRandomPokemonExcept(chosenDexIndexes, 3L);
+        List<String> abilities =
+            chosenPokemon
+                .getAbilities()
+                .stream()
+                .map(ability -> ability.getAbility().getName())
+                .collect(Collectors.toList());
+        Collections.shuffle(abilities);
+        String stem = "Which of these pokémon has the ability " + abilities.get(0) + "?";
+        Set<Pokemon> wrongPokemon = Sets.newHashSet();
+        while (tempWrongPokemon.size() > 0) {
+          tempWrongPokemon.forEach(
+              pokemon -> {
+                chosenDexIndexes.add(pokemon.getId());
+                if (!pokemon
+                    .getAbilities()
+                    .stream()
+                    .map(ability -> ability.getAbility().getName())
+                    .collect(Collectors.toSet())
+                    .contains(abilities.get(0))) {
+                  wrongPokemon.add(pokemon);
+                }
+              });
+          tempWrongPokemon = getRandomPokemonExcept(chosenDexIndexes, 3L - wrongPokemon.size());
+        }
+        alternatives.add(
+            AlternativeDto.builder().text(chosenPokemon.getName()).correct(true).build());
+        alternatives.addAll(
+            wrongPokemon
+                .stream()
+                .map(
+                    pokemon ->
+                        AlternativeDto.builder().text(pokemon.getName()).correct(false).build())
+                .collect(Collectors.toSet()));
+        questionBuilder.alternatives(alternatives);
+        questionBuilder.stem(stem);
         break;
       case ITEM_NAMES:
         break;
