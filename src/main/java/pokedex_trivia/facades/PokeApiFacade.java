@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pokedex_trivia.pokeapi.models.items.items.Item;
 import pokedex_trivia.pokeapi.models.pokemon.pokemon.Pokemon;
 import pokedex_trivia.pokeapi.services.PokeApiService;
 import retrofit2.Response;
@@ -34,6 +35,19 @@ public class PokeApiFacade {
       throw new RuntimeException(
           "Call for https://pokeapi.co/api/v2/pokemon/"
               + dexIndex
+              + "/ has failed!\nError is: "
+              + response.errorBody().string());
+    }
+  }
+
+  public Item getItemById(Long itemId) throws Exception {
+    Response<Item> response = pokeApiService.getItemById(itemId).execute();
+    if (response.isSuccessful()) {
+      return response.body();
+    } else {
+      throw new RuntimeException(
+          "Call for https://pokeapi.co/api/v2/item/"
+              + itemId
               + "/ has failed!\nError is: "
               + response.errorBody().string());
     }
