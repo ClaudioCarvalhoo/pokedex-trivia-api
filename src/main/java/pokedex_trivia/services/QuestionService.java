@@ -269,7 +269,7 @@ public class QuestionService {
   }
 
   private Pokemon getRandomPokemon() throws Exception {
-    Long randomDexNumber = (long) RANDOM.nextInt(808);
+    Long randomDexNumber = getRandomPokedexIndex();
     return pokeApiFacade.getPokemonByDexIndex(randomDexNumber);
   }
 
@@ -277,10 +277,10 @@ public class QuestionService {
     Set<Long> chosenDexIndexes = Sets.newHashSet();
     chosenDexIndexes.addAll(except);
     Set<Pokemon> chosenPokemon = Sets.newHashSet();
-    Long randomDexNumber = (long) RANDOM.nextInt(808);
+    Long randomDexNumber = getRandomPokedexIndex();
     for (int i = 0; i < quant; i++) {
       while (chosenDexIndexes.contains(randomDexNumber)) {
-        randomDexNumber = (long) RANDOM.nextInt(808);
+        randomDexNumber = getRandomPokedexIndex();
       }
       chosenDexIndexes.add(randomDexNumber);
       Pokemon randomPokemon = pokeApiFacade.getPokemonByDexIndex(randomDexNumber);
@@ -316,6 +316,10 @@ public class QuestionService {
       }
     }
     return chosenItems;
+  }
+
+  private Long getRandomPokedexIndex() {
+    return (long) RANDOM.nextInt(808 - 1) + 1;
   }
 
   private String removeTrailingHyphensFromName(String name) {
