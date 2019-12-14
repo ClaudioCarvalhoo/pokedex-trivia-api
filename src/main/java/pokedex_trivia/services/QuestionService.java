@@ -202,11 +202,19 @@ public class QuestionService {
             tempWrongItems = getRandomItems(possibleItemIds, 3L - wrongItems.size());
           }
           alternatives.add(
-              AlternativeDto.builder().text(chosenItem.getName()).correct(true).build());
+              AlternativeDto.builder()
+                  .text(removeTrailingHyphensFromName(chosenItem.getName()))
+                  .correct(true)
+                  .build());
           alternatives.addAll(
               wrongItems
                   .stream()
-                  .map(item -> AlternativeDto.builder().text(item.getName()).correct(false).build())
+                  .map(
+                      item ->
+                          AlternativeDto.builder()
+                              .text(removeTrailingHyphensFromName(item.getName()))
+                              .correct(false)
+                              .build())
                   .collect(Collectors.toSet()));
         }
         break;
@@ -237,7 +245,7 @@ public class QuestionService {
           }
           alternatives.add(
               AlternativeDto.builder()
-                  .text(chosenItem.getName())
+                  .text(removeTrailingHyphensFromName(chosenItem.getName()))
                   .imageUrl(chosenItem.getSprites().getDefaultSprite())
                   .correct(true)
                   .build());
@@ -247,7 +255,7 @@ public class QuestionService {
                   .map(
                       item ->
                           AlternativeDto.builder()
-                              .text(item.getName())
+                              .text(removeTrailingHyphensFromName(item.getName()))
                               .imageUrl(item.getSprites().getDefaultSprite())
                               .correct(false)
                               .build())
@@ -308,5 +316,9 @@ public class QuestionService {
       }
     }
     return chosenItems;
+  }
+
+  private String removeTrailingHyphensFromName(String name) {
+    return name.replaceAll("--held", "");
   }
 }
