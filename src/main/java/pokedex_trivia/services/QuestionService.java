@@ -181,7 +181,7 @@ public class QuestionService {
       case ITEM_NAMES:
         {
           List<Long> possibleItemIds =
-              LongStream.range(0, 1005).boxed().collect(Collectors.toList());
+              LongStream.range(1, 1005).boxed().collect(Collectors.toList());
           possibleItemIds.removeAll(BANNED_ITEM_IDS);
           questionBuilder.stem("What's the name of that item?");
           Item chosenItem = getRandomItem(possibleItemIds);
@@ -221,7 +221,7 @@ public class QuestionService {
       case ITEM_EFFECTS:
         {
           List<Long> possibleItemIds =
-              LongStream.range(0, 1005).boxed().collect(Collectors.toList());
+              LongStream.range(1, 1005).boxed().collect(Collectors.toList());
           possibleItemIds.removeAll(BANNED_ITEM_IDS);
           Item chosenItem = getRandomItem(possibleItemIds);
           possibleItemIds.remove(chosenItem.getId());
