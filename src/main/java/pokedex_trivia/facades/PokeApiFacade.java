@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import pokedex_trivia.pokeapi.models.items.items.Item;
 import pokedex_trivia.pokeapi.models.pokemon.pokemon.Pokemon;
@@ -27,6 +28,7 @@ public class PokeApiFacade {
           .build();
   private final PokeApiService pokeApiService = RETROFIT.create(PokeApiService.class);
 
+  @Cacheable("pokemon")
   public Pokemon getPokemonByDexIndex(Long dexIndex) throws Exception {
     Response<Pokemon> response = pokeApiService.getPokemonByDexIndex(dexIndex).execute();
     if (response.isSuccessful()) {
@@ -40,6 +42,7 @@ public class PokeApiFacade {
     }
   }
 
+  @Cacheable("items")
   public Item getItemById(Long itemId) throws Exception {
     Response<Item> response = pokeApiService.getItemById(itemId).execute();
     if (response.isSuccessful()) {

@@ -19,7 +19,7 @@ public class Item {
   Long flingPower;
   NamedApiResource flingEffect;
   List<NamedApiResource> attributes;
-  ItemCategory itemCategory;
+  NamedApiResource category;
   List<VerboseEffect> effectEntries;
   List<VersionGroupFlavorText> flavorTextEntries;
   List<GenerationGameIndex> gameIndices;
